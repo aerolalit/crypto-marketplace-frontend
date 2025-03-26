@@ -1,0 +1,17 @@
+{
+    "title": "Marché de Cryptomonnaies",
+    "connect_wallet": "Connecter le Portefeuille",
+    "welcome": "Bienvenue sur le Marché de Cryptomonnaies",
+    "description": "Votre boutique unique pour tout ce qui concerne la crypto",
+    "navigation": {
+        "home": "Accueil",
+        "marketplace": "Marché",
+        "profile": "Profil"
+    },
+    "wallet": {
+        "connect": "Connecter le Portefeuille",
+        "disconnect": "Déconnecter",
+        "connected": "Connecté",
+        "not_connected": "Non Connecté"
+    }
+}

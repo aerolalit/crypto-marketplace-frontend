@@ -1,0 +1,17 @@
+{
+    "title": "Crypto Marketplace",
+    "connect_wallet": "Connect Wallet",
+    "welcome": "Welcome to Crypto Marketplace",
+    "description": "Your one-stop shop for all things crypto",
+    "navigation": {
+        "home": "Home",
+        "marketplace": "Marketplace",
+        "profile": "Profile"
+    },
+    "wallet": {
+        "connect": "Connect Wallet",
+        "disconnect": "Disconnect",
+        "connected": "Connected",
+        "not_connected": "Not Connected"
+    }
+}

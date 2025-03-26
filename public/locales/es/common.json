@@ -1,0 +1,17 @@
+{
+    "title": "Mercado de Criptomonedas",
+    "connect_wallet": "Conectar Billetera",
+    "welcome": "Bienvenido al Mercado de Criptomonedas",
+    "description": "Tu tienda única para todo lo relacionado con criptomonedas",
+    "navigation": {
+        "home": "Inicio",
+        "marketplace": "Mercado",
+        "profile": "Perfil"
+    },
+    "wallet": {
+        "connect": "Conectar Billetera",
+        "disconnect": "Desconectar",
+        "connected": "Conectado",
+        "not_connected": "No Conectado"
+    }
+}
