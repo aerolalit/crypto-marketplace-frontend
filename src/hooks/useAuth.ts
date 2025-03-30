@@ -15,14 +15,12 @@ interface MessageResponse {
 export function useAuth() {
     const { address, isConnected } = useAccount();
     const { signMessageAsync } = useSignMessage();
-    const [hasRequestedSignature, setHasRequestedSignature] = useState(false);
     const [messageToSign, setMessageToSign] = useState<string | null>(null);
     const wasConnected = useRef(false);
 
     // Reset states when wallet disconnects
     useEffect(() => {
         if (!isConnected && wasConnected.current) {
-            setHasRequestedSignature(false);
             setMessageToSign(null);
             localStorage.removeItem(AUTH_TOKEN_KEY);
         }
@@ -37,7 +35,7 @@ export function useAuth() {
             if (error) throw new Error(error);
             return data;
         },
-        enabled: isConnected && !hasRequestedSignature && !messageToSign && localStorage.getItem(AUTH_TOKEN_KEY) === null,
+        enabled: isConnected && !messageToSign && !localStorage.getItem(AUTH_TOKEN_KEY),
     });
 
     // Update messageToSign when messageData changes
@@ -64,11 +62,9 @@ export function useAuth() {
     });
 
     const signIn = useCallback(async () => {
-        if (!messageToSign || !address || hasRequestedSignature) return null;
+        if (!messageToSign || !address) return null;
 
         try {
-            setHasRequestedSignature(true);
-
             // Sign the message
             const signature = await signMessageAsync({ message: messageToSign });
 
@@ -78,24 +74,20 @@ export function useAuth() {
                 message: messageToSign,
             });
 
-            // Store the token
+            // Store the token and clear message
             localStorage.setItem(AUTH_TOKEN_KEY, token);
-
-            // Clear the message after successful verification
             setMessageToSign(null);
 
             return token;
         } catch (error) {
             console.error('Authentication failed:', error);
-            setHasRequestedSignature(false);
             return null;
         }
-    }, [messageToSign, address, hasRequestedSignature, signMessageAsync, verifySignature]);
+    }, [messageToSign, address, signMessageAsync, verifySignature]);
 
     return {
         isConnected,
         signIn,
-        hasRequestedSignature,
         messageToSign,
     };
 } 
