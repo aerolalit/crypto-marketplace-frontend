@@ -34,7 +34,7 @@ export function useAuth() {
             if (error) throw new Error(error);
             return data;
         },
-        enabled: isConnected && !hasRequestedSignature && !messageToSign,
+        enabled: isConnected && !hasRequestedSignature && !messageToSign && localStorage.getItem(AUTH_TOKEN_KEY) === null,
     });
 
     // Update messageToSign when messageData changes
