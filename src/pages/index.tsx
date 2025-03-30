@@ -1,10 +1,10 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import type { GetStaticProps } from 'next';
 import styles from '../styles/Home.module.css';
+import { ConnectButton } from '../components/ConnectButton';
 
 const Home: NextPage = () => {
   const { t } = useTranslation('common');
@@ -84,10 +84,10 @@ const Home: NextPage = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ locale = 'en' }) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale ?? 'en', ['common'])),
     },
   };
 };
