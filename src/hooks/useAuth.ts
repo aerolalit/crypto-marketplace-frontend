@@ -1,6 +1,6 @@
 import { useAccount, useSignMessage } from 'wagmi';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { fetchApi } from '../utils/api';
 import { AUTH_TOKEN_KEY } from '../constants/config';
 
@@ -17,13 +17,16 @@ export function useAuth() {
     const { signMessageAsync } = useSignMessage();
     const [hasRequestedSignature, setHasRequestedSignature] = useState(false);
     const [messageToSign, setMessageToSign] = useState<string | null>(null);
+    const wasConnected = useRef(false);
 
     // Reset states when wallet disconnects
     useEffect(() => {
-        if (!isConnected) {
+        if (!isConnected && wasConnected.current) {
             setHasRequestedSignature(false);
             setMessageToSign(null);
+            localStorage.removeItem(AUTH_TOKEN_KEY);
         }
+        wasConnected.current = isConnected;
     }, [isConnected]);
 
     // Get message to sign
