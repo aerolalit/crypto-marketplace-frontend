@@ -6,12 +6,49 @@
     "navigation": {
         "home": "Home",
         "marketplace": "Marketplace",
-        "profile": "Profile"
+        "profile": "Profile",
+        "seller": "Sell Invites"
     },
     "wallet": {
         "connect": "Connect Wallet",
         "disconnect": "Disconnect",
         "connected": "Connected",
         "not_connected": "Not Connected"
+    },
+    "seller": {
+        "title": "List Your Telegram Group",
+        "steps": {
+            "select_product": "Select Product Type",
+            "search_group": "Search Telegram Group",
+            "verify_ownership": "Verify Group Ownership",
+            "set_price": "Set Price"
+        },
+        "product_types": {
+            "telegram_invite": "Telegram Group Invite"
+        },
+        "search": {
+            "placeholder": "Enter group name or link",
+            "searching": "Searching...",
+            "no_results": "No groups found",
+            "error": "Error searching groups"
+        },
+        "verification": {
+            "title": "Verify Group Ownership",
+            "message": "Please send this verification message to your group:",
+            "copy": "Copy Message",
+            "copied": "Copied!",
+            "verify": "Verify Ownership",
+            "verifying": "Verifying...",
+            "success": "Ownership verified!",
+            "error": "Verification failed"
+        },
+        "price": {
+            "title": "Set Your Price",
+            "label": "Price (ETH)",
+            "placeholder": "Enter price in ETH",
+            "submit": "List Group",
+            "success": "Group listed successfully!",
+            "error": "Failed to list group. Please try again."
+        }
     }
 }
