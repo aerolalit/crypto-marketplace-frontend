@@ -1,0 +1,12 @@
+.telegramLoginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+    min-height: 50px;
+}
+
+.telegramLoginContainer iframe {
+    border: none;
+    margin: 0 auto;
+}

@@ -1,12 +1,43 @@
 import { useState } from 'react';
 import { useTranslation } from 'next-i18next';
 
-export type Step = 'select_product' | 'search_group' | 'verify_ownership' | 'set_price';
+export type Step = 'telegram_login' | 'search_group' | 'verify_ownership' | 'set_price';
 
-export interface Group {
+export interface TelegramUser {
+    id: number;
+    first_name: string;
+    last_name?: string;
+    username?: string;
+    photo_url?: string;
+    auth_date: number;
+    hash: string;
+}
+
+export interface TelegramGroup {
     id: string;
-    name: string;
-    link: string;
+    title: string;
+    memberCount: number;
+    addedById: string;
+    isVerified: boolean;
+    verifiedAt: string | null;
+    verifiedById: string | null;
+    botPermissions: string[];
+    createdAt: string;
+    updatedAt: string;
+    addedBy: {
+        id: string;
+        username: string;
+        firstName: string;
+        lastName: string | null;
+        photoUrl: string;
+        authDate: number;
+        hash: string;
+        userId: string;
+        createdAt: string;
+        updatedAt: string;
+    };
+    verifiedBy: null | any;
+    photoUrl?: string;
 }
 
 export interface Status {
@@ -16,44 +47,49 @@ export interface Status {
 
 export const useSellerForm = () => {
     const { t } = useTranslation('common');
-    const [currentStep, setCurrentStep] = useState<Step>('select_product');
-    const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [searchResults, setSearchResults] = useState<Group[]>([]);
-    const [isSearching, setIsSearching] = useState(false);
+    const [currentStep, setCurrentStep] = useState<Step>('telegram_login');
+    const [selectedGroup, setSelectedGroup] = useState<TelegramGroup | null>(null);
+    const [userGroups, setUserGroups] = useState<TelegramGroup[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
     const [verificationMessage, setVerificationMessage] = useState('');
     const [isVerifying, setIsVerifying] = useState(false);
     const [price, setPrice] = useState('');
     const [status, setStatus] = useState<Status | null>(null);
 
-    const handleSearch = async () => {
-        if (!searchQuery.trim()) return;
+    const getGroupPhotoUrl = (groupId: string, size: 'small' | 'big' = 'small') => {
+        return `http://localhost:3001/api/telegram/groups/${groupId}/photo?size=${size}`;
+    };
 
-        setIsSearching(true);
+    const fetchUserGroups = async (tgUserId: number) => {
+        setIsLoading(true);
+        setError(null);
         try {
-            // TODO: Implement API call to search groups
-            // This is a mock response
-            setSearchResults([
-                { id: '1', name: 'Test Group 1', link: 'https://t.me/test1' },
-                { id: '2', name: 'Test Group 2', link: 'https://t.me/test2' },
-            ]);
-        } catch (error) {
-            setStatus({
-                type: 'error',
-                message: t('seller.search.error'),
-            });
+            const response = await fetch(`http://localhost:3001/api/telegram/groups-by-user?tgUserId=${tgUserId}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch groups');
+            }
+            const data = await response.json();
+            // Add photo URLs to each group
+            const groupsWithPhotos = data.groups.map((group: TelegramGroup) => ({
+                ...group,
+                photoUrl: getGroupPhotoUrl(group.id)
+            }));
+            setUserGroups(groupsWithPhotos);
+            setCurrentStep('search_group');
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to fetch groups');
+            console.error('Error fetching groups:', err);
         } finally {
-            setIsSearching(false);
+            setIsLoading(false);
         }
     };
 
-    const handleGroupSelect = async (group: Group) => {
+    const handleGroupSelect = async (group: TelegramGroup) => {
         setSelectedGroup(group);
         try {
-            // TODO: Implement API call to fetch verification message
-            // For now, using a static message
-            const staticMessage = `Please verify ownership of ${group.name} by sending this message to your group: @cryptomarketplace verify ${group.id}`;
-            setVerificationMessage(staticMessage);
+            const verificationMsg = `Please verify ownership of ${group.title} by sending this message to your group: @cryptomarketplace verify ${group.id}`;
+            setVerificationMessage(verificationMsg);
             setCurrentStep('verify_ownership');
         } catch (error) {
             setStatus({
@@ -90,10 +126,9 @@ export const useSellerForm = () => {
                 message: t('seller.price.success'),
             });
             // Reset form
-            setCurrentStep('select_product');
+            setCurrentStep('telegram_login');
             setSelectedGroup(null);
-            setSearchQuery('');
-            setSearchResults([]);
+            setUserGroups([]);
             setVerificationMessage('');
             setPrice('');
         } catch (error) {
@@ -112,20 +147,20 @@ export const useSellerForm = () => {
     return {
         currentStep,
         selectedGroup,
-        searchQuery,
-        searchResults,
-        isSearching,
+        userGroups,
+        isLoading,
+        error,
         verificationMessage,
         isVerifying,
         price,
         status,
         setCurrentStep,
-        setSearchQuery,
         setPrice,
-        handleSearch,
+        fetchUserGroups,
         handleGroupSelect,
         handleVerifyOwnership,
         handleSubmit,
         copyVerificationMessage,
+        getGroupPhotoUrl,
     };
 }; 

@@ -1,14 +1,9 @@
 import { useTranslation } from 'next-i18next';
 import styles from '../../styles/Seller.module.css';
-
-interface Group {
-    id: string;
-    name: string;
-    link: string;
-}
+import { TelegramGroup } from '../../hooks/useSellerForm';
 
 interface VerificationStepProps {
-    group: Group;
+    group: TelegramGroup;
     verificationMessage: string;
     isVerifying: boolean;
     onCopyMessage: () => void;

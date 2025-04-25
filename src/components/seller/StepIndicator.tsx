@@ -1,7 +1,6 @@
 import { useTranslation } from 'next-i18next';
 import styles from '../../styles/Seller.module.css';
-
-type Step = 'select_product' | 'search_group' | 'verify_ownership' | 'set_price';
+import { Step } from '../../hooks/useSellerForm';
 
 interface StepIndicatorProps {
     currentStep: Step;
@@ -12,8 +11,8 @@ export const StepIndicator = ({ currentStep }: StepIndicatorProps) => {
 
     return (
         <div className={styles.stepIndicator}>
-            <div className={`${styles.step} ${currentStep === 'select_product' ? styles.active : ''}`}>
-                {t('seller.steps.select_product')}
+            <div className={`${styles.step} ${currentStep === 'telegram_login' ? styles.active : ''}`}>
+                Telegram Login
             </div>
             <div className={`${styles.step} ${currentStep === 'search_group' ? styles.active : ''}`}>
                 {t('seller.steps.search_group')}

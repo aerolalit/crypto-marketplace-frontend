@@ -130,27 +130,98 @@
     gap: 1rem;
 }
 
-.groupCard {
+.groupList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    width: 100%;
     padding: 1rem;
-    border: 1px solid #eaeaea;
-    border-radius: 5px;
+}
+
+.groupCard {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    background: white;
     cursor: pointer;
-    transition: border-color 0.15s ease;
+    transition: all 0.2s ease;
+    text-align: left;
+    width: 100%;
 }
 
 .groupCard:hover {
-    border-color: #0d76fc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.groupCard h3 {
-    margin: 0 0 0.5rem;
+.groupCardContent {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.groupPhoto {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f3f4f6;
+}
+
+.groupPhoto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.groupInfo {
+    flex: 1;
+    min-width: 0;
+    /* Prevents text overflow issues */
+}
+
+.groupInfo h3 {
+    margin: 0 0 0.5rem 0;
     font-size: 1.1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.groupCard p {
+.groupInfo p {
     margin: 0;
-    color: #666;
+    color: #6b7280;
     font-size: 0.9rem;
+}
+
+.verifiedBadge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    margin-top: 0.5rem;
+    background-color: #10B981;
+    color: white;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #6b7280;
+}
+
+.error {
+    text-align: center;
+    padding: 2rem;
+    color: #EF4444;
+    background-color: #FEE2E2;
+    border-radius: 0.5rem;
+    margin: 1rem;
 }
 
 .verificationMessage {
@@ -243,11 +314,6 @@
 .success {
     background: #e6f4ea;
     color: #1e7e34;
-}
-
-.error {
-    background: #fce8e6;
-    color: #d93025;
 }
 
 @media (max-width: 600px) {
