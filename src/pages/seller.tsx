@@ -9,6 +9,7 @@ import { StepIndicator } from '../components/seller/StepIndicator';
 import { PriceStep } from '../components/seller/PriceStep';
 import TelegramLoginButton from '../components/TelegramLoginButton';
 import { useSellerForm } from '../hooks/useSellerForm';
+import { PermissionModal } from '../components/seller/PermissionModal';
 import styles from '../styles/Seller.module.css';
 
 const Seller: NextPage = () => {
@@ -22,14 +23,49 @@ const Seller: NextPage = () => {
         error,
         price,
         status,
+        telegramUserId,
+        showPermissionModal,
+        groupWithMissingPermissions,
+        REQUIRED_PERMISSIONS,
         setCurrentStep,
         setPrice,
         fetchUserGroups,
         handleGroupSelect,
         handleSubmit,
+        setShowPermissionModal,
     } = useSellerForm();
 
     const pageTitle = `${t('seller.title')} - ${t('title')}`;
+
+    const NoGroupsFound = () => (
+        <div className={styles.noGroups}>
+            <h3>No Groups Found</h3>
+            <p>Follow these steps to add your Telegram group:</p>
+            <ol>
+                <li>Add our bot <a
+                    href="https://t.me/Invite_manager1_bot"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.botLink}
+                >@Invite_manager1_bot</a> to your group</li>
+                <li>Make the bot an administrator</li>
+                <li>Grant the following permissions:
+                    <ul>
+                        <li>Delete messages</li>
+                        <li>Ban users</li>
+                        <li>Invite users via link</li>
+                    </ul>
+                </li>
+            </ol>
+            <button
+                className={styles.refreshButton}
+                onClick={() => telegramUserId && fetchUserGroups(telegramUserId)}
+                disabled={!telegramUserId}
+            >
+                Refresh Groups
+            </button>
+        </div>
+    );
 
     return (
         <div className={styles.container}>
@@ -41,6 +77,21 @@ const Seller: NextPage = () => {
 
             <main className={styles.main}>
                 <h1 className={styles.title}>{t('seller.title')}</h1>
+
+                {showPermissionModal && groupWithMissingPermissions && (
+                    <PermissionModal
+                        group={groupWithMissingPermissions}
+                        missingPermissions={REQUIRED_PERMISSIONS.filter(
+                            permission => !groupWithMissingPermissions.botPermissions.includes(permission)
+                        )}
+                        onClose={() => {
+                            setShowPermissionModal(false);
+                            if (telegramUserId) {
+                                fetchUserGroups(telegramUserId);
+                            }
+                        }}
+                    />
+                )}
 
                 {!isConnected ? (
                     <div className={styles.connectPrompt}>
@@ -72,7 +123,7 @@ const Seller: NextPage = () => {
                                 ) : (
                                     <div className={styles.groupList}>
                                         {userGroups.length === 0 ? (
-                                            <p>No groups found. Make sure you have added our bot to your groups.</p>
+                                            <NoGroupsFound />
                                         ) : (
                                             userGroups.map((group) => (
                                                 <button

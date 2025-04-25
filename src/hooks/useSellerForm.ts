@@ -3,6 +3,8 @@ import { useTranslation } from 'next-i18next';
 
 export type Step = 'telegram_login' | 'search_group' | 'set_price';
 
+const REQUIRED_PERMISSIONS = ['can_restrict_members', 'can_invite_users'] as const;
+
 export interface TelegramUser {
     id: number;
     first_name: string;
@@ -54,14 +56,22 @@ export const useSellerForm = () => {
     const [error, setError] = useState<string | null>(null);
     const [price, setPrice] = useState('');
     const [status, setStatus] = useState<Status | null>(null);
+    const [telegramUserId, setTelegramUserId] = useState<number | null>(null);
+    const [showPermissionModal, setShowPermissionModal] = useState(false);
+    const [groupWithMissingPermissions, setGroupWithMissingPermissions] = useState<TelegramGroup | null>(null);
 
     const getGroupPhotoUrl = (groupId: string, size: 'small' | 'big' = 'small') => {
         return `http://localhost:3001/api/telegram/groups/${groupId}/photo?size=${size}`;
     };
 
+    const checkGroupPermissions = (group: TelegramGroup): string[] => {
+        return REQUIRED_PERMISSIONS.filter(permission => !group.botPermissions.includes(permission));
+    };
+
     const fetchUserGroups = async (tgUserId: number) => {
         setIsLoading(true);
         setError(null);
+        setTelegramUserId(tgUserId);
         try {
             const response = await fetch(`http://localhost:3001/api/telegram/groups-by-user?tgUserId=${tgUserId}`);
             if (!response.ok) {
@@ -84,6 +94,12 @@ export const useSellerForm = () => {
     };
 
     const handleGroupSelect = async (group: TelegramGroup) => {
+        const missingPermissions = checkGroupPermissions(group);
+        if (missingPermissions.length > 0) {
+            setGroupWithMissingPermissions(group);
+            setShowPermissionModal(true);
+            return;
+        }
         setSelectedGroup(group);
         setCurrentStep('set_price');
     };
@@ -103,6 +119,9 @@ export const useSellerForm = () => {
             setSelectedGroup(null);
             setUserGroups([]);
             setPrice('');
+            setTelegramUserId(null);
+            setShowPermissionModal(false);
+            setGroupWithMissingPermissions(null);
         } catch (error) {
             setStatus({
                 type: 'error',
@@ -119,11 +138,17 @@ export const useSellerForm = () => {
         error,
         price,
         status,
+        telegramUserId,
+        showPermissionModal,
+        groupWithMissingPermissions,
+        REQUIRED_PERMISSIONS,
         setCurrentStep,
         setPrice,
+        setShowPermissionModal,
         fetchUserGroups,
         handleGroupSelect,
         handleSubmit,
         getGroupPhotoUrl,
+        checkGroupPermissions,
     };
 }; 
