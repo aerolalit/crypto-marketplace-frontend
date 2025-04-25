@@ -6,7 +6,6 @@ import type { GetStaticProps } from 'next';
 import { useAccount } from 'wagmi';
 import { ConnectButton } from '../components/ConnectButton';
 import { StepIndicator } from '../components/seller/StepIndicator';
-import { VerificationStep } from '../components/seller/VerificationStep';
 import { PriceStep } from '../components/seller/PriceStep';
 import TelegramLoginButton from '../components/TelegramLoginButton';
 import { useSellerForm } from '../hooks/useSellerForm';
@@ -21,17 +20,13 @@ const Seller: NextPage = () => {
         userGroups,
         isLoading,
         error,
-        verificationMessage,
-        isVerifying,
         price,
         status,
         setCurrentStep,
         setPrice,
         fetchUserGroups,
         handleGroupSelect,
-        handleVerifyOwnership,
         handleSubmit,
-        copyVerificationMessage,
     } = useSellerForm();
 
     const pageTitle = `${t('seller.title')} - ${t('title')}`;
@@ -91,7 +86,6 @@ const Seller: NextPage = () => {
                                                                 src={group.photoUrl}
                                                                 alt={group.title}
                                                                 onError={(e) => {
-                                                                    // Set default image on error
                                                                     (e.target as HTMLImageElement).src = '/default-group.png';
                                                                 }}
                                                             />
@@ -110,16 +104,6 @@ const Seller: NextPage = () => {
                                     </div>
                                 )}
                             </div>
-                        )}
-
-                        {currentStep === 'verify_ownership' && selectedGroup && (
-                            <VerificationStep
-                                group={selectedGroup}
-                                verificationMessage={verificationMessage}
-                                isVerifying={isVerifying}
-                                onCopyMessage={copyVerificationMessage}
-                                onVerify={handleVerifyOwnership}
-                            />
                         )}
 
                         {currentStep === 'set_price' && (

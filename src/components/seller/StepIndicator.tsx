@@ -17,9 +17,6 @@ export const StepIndicator = ({ currentStep }: StepIndicatorProps) => {
             <div className={`${styles.step} ${currentStep === 'search_group' ? styles.active : ''}`}>
                 {t('seller.steps.search_group')}
             </div>
-            <div className={`${styles.step} ${currentStep === 'verify_ownership' ? styles.active : ''}`}>
-                {t('seller.steps.verify_ownership')}
-            </div>
             <div className={`${styles.step} ${currentStep === 'set_price' ? styles.active : ''}`}>
                 {t('seller.steps.set_price')}
             </div>

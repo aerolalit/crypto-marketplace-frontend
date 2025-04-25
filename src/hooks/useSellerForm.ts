@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'next-i18next';
 
-export type Step = 'telegram_login' | 'search_group' | 'verify_ownership' | 'set_price';
+export type Step = 'telegram_login' | 'search_group' | 'set_price';
 
 export interface TelegramUser {
     id: number;
@@ -52,8 +52,6 @@ export const useSellerForm = () => {
     const [userGroups, setUserGroups] = useState<TelegramGroup[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [verificationMessage, setVerificationMessage] = useState('');
-    const [isVerifying, setIsVerifying] = useState(false);
     const [price, setPrice] = useState('');
     const [status, setStatus] = useState<Status | null>(null);
 
@@ -87,32 +85,7 @@ export const useSellerForm = () => {
 
     const handleGroupSelect = async (group: TelegramGroup) => {
         setSelectedGroup(group);
-        try {
-            const verificationMsg = `Please verify ownership of ${group.title} by sending this message to your group: @cryptomarketplace verify ${group.id}`;
-            setVerificationMessage(verificationMsg);
-            setCurrentStep('verify_ownership');
-        } catch (error) {
-            setStatus({
-                type: 'error',
-                message: t('seller.verification.error'),
-            });
-        }
-    };
-
-    const handleVerifyOwnership = async () => {
-        setIsVerifying(true);
-        try {
-            // TODO: Implement API call to verify ownership
-            // This is a mock success
-            setCurrentStep('set_price');
-        } catch (error) {
-            setStatus({
-                type: 'error',
-                message: t('seller.verification.error'),
-            });
-        } finally {
-            setIsVerifying(false);
-        }
+        setCurrentStep('set_price');
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -129,7 +102,6 @@ export const useSellerForm = () => {
             setCurrentStep('telegram_login');
             setSelectedGroup(null);
             setUserGroups([]);
-            setVerificationMessage('');
             setPrice('');
         } catch (error) {
             setStatus({
@@ -139,28 +111,19 @@ export const useSellerForm = () => {
         }
     };
 
-    const copyVerificationMessage = () => {
-        navigator.clipboard.writeText(verificationMessage);
-        // You might want to add a toast notification here
-    };
-
     return {
         currentStep,
         selectedGroup,
         userGroups,
         isLoading,
         error,
-        verificationMessage,
-        isVerifying,
         price,
         status,
         setCurrentStep,
         setPrice,
         fetchUserGroups,
         handleGroupSelect,
-        handleVerifyOwnership,
         handleSubmit,
-        copyVerificationMessage,
         getGroupPhotoUrl,
     };
 }; 
