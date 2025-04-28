@@ -6,10 +6,10 @@ import type { GetStaticProps } from 'next';
 import { useAccount } from 'wagmi';
 import { ConnectButton } from '../components/ConnectButton';
 import { StepIndicator } from '../components/seller/StepIndicator';
-import { PriceStep } from '../components/seller/PriceStep';
+import { SubscriptionPlanStep } from '../components/seller/SubscriptionPlanStep';
 import TelegramLoginButton from '../components/TelegramLoginButton';
-import { useSellerForm } from '../hooks/useSellerForm';
 import { PermissionModal } from '../components/seller/PermissionModal';
+import { useSellerForm } from '../hooks/useSellerForm';
 import styles from '../styles/Seller.module.css';
 
 const Seller: NextPage = () => {
@@ -21,18 +21,19 @@ const Seller: NextPage = () => {
         userGroups,
         isLoading,
         error,
-        price,
         status,
         telegramUserId,
         showPermissionModal,
         groupWithMissingPermissions,
+        plans,
         REQUIRED_PERMISSIONS,
         setCurrentStep,
-        setPrice,
+        setShowPermissionModal,
         fetchUserGroups,
         handleGroupSelect,
         handleSubmit,
-        setShowPermissionModal,
+        addPlan,
+        removePlan,
     } = useSellerForm();
 
     const pageTitle = `${t('seller.title')} - ${t('title')}`;
@@ -157,13 +158,20 @@ const Seller: NextPage = () => {
                             </div>
                         )}
 
-                        {currentStep === 'set_price' && (
-                            <PriceStep
-                                price={price}
-                                onPriceChange={setPrice}
+                        {currentStep === 'subscription_plan' && (
+                            <SubscriptionPlanStep
+                                plans={plans || []}
+                                onAddPlan={addPlan}
+                                onRemovePlan={removePlan}
                                 onSubmit={handleSubmit}
-                                status={status}
+                                isLoading={isLoading}
                             />
+                        )}
+
+                        {status && (
+                            <div className={`${styles.status} ${styles[status.type]}`}>
+                                {status.message}
+                            </div>
                         )}
                     </div>
                 )}

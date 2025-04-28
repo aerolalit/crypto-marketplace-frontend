@@ -1,7 +1,25 @@
 import { useState } from 'react';
 import { useTranslation } from 'next-i18next';
 
-export type Step = 'telegram_login' | 'search_group' | 'set_price';
+export type Step = 'telegram_login' | 'search_group' | 'subscription_plan';
+
+export type PlanType = 'token-holding' | 'one-time';
+
+export interface TokenHoldingPlan {
+    id: string;
+    type: 'token-holding';
+    tokenAddress: string;
+    requiredAmount: string;
+}
+
+export interface OneTimePlan {
+    id: string;
+    type: 'one-time';
+    duration: number;
+    price: string;
+}
+
+export type SubscriptionPlan = TokenHoldingPlan | OneTimePlan;
 
 const REQUIRED_PERMISSIONS = ['can_restrict_members', 'can_invite_users'] as const;
 
@@ -54,11 +72,11 @@ export const useSellerForm = () => {
     const [userGroups, setUserGroups] = useState<TelegramGroup[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [price, setPrice] = useState('');
     const [status, setStatus] = useState<Status | null>(null);
     const [telegramUserId, setTelegramUserId] = useState<number | null>(null);
     const [showPermissionModal, setShowPermissionModal] = useState(false);
     const [groupWithMissingPermissions, setGroupWithMissingPermissions] = useState<TelegramGroup | null>(null);
+    const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
 
     const getGroupPhotoUrl = (groupId: string, size: 'small' | 'big' = 'small') => {
         return `http://localhost:3001/api/telegram/groups/${groupId}/photo?size=${size}`;
@@ -101,32 +119,51 @@ export const useSellerForm = () => {
             return;
         }
         setSelectedGroup(group);
-        setCurrentStep('set_price');
+        setCurrentStep('subscription_plan');
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setStatus(null);
+    const addPlan = (plan: Omit<SubscriptionPlan, 'id'>) => {
+        const planWithId = { ...plan, id: Math.random().toString(36).substr(2, 9) } as SubscriptionPlan;
+        setPlans((prev) => [...prev, planWithId]);
+    };
 
+    const removePlan = (planId: string) => {
+        setPlans((prev) => prev.filter((p) => p.id !== planId));
+    };
+
+    const handleSubmit = async () => {
+        if (!selectedGroup) return;
+        setIsLoading(true);
+        setError(null);
         try {
-            // TODO: Implement API call to list the group
-            setStatus({
-                type: 'success',
-                message: t('seller.price.success'),
+            const token = localStorage.getItem('authToken');
+            const response = await fetch(`http://localhost:3001/api/telegram/groups/${selectedGroup.id}/subscriptions`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+                body: JSON.stringify({ plans }),
             });
-            // Reset form
-            setCurrentStep('telegram_login');
-            setSelectedGroup(null);
-            setUserGroups([]);
-            setPrice('');
-            setTelegramUserId(null);
-            setShowPermissionModal(false);
-            setGroupWithMissingPermissions(null);
+            if (!response.ok) {
+                throw new Error('Failed to create subscription plans');
+            }
+            setStatus({ type: 'success', message: t('seller.listing.success') });
+            setTimeout(() => {
+                setCurrentStep('telegram_login');
+                setSelectedGroup(null);
+                setUserGroups([]);
+                setPlans([]);
+                setTelegramUserId(null);
+                setShowPermissionModal(false);
+                setGroupWithMissingPermissions(null);
+                setStatus(null);
+            }, 2000);
         } catch (error) {
-            setStatus({
-                type: 'error',
-                message: t('seller.price.error'),
-            });
+            setError(error instanceof Error ? error.message : 'Failed to create subscription plans');
+            setStatus({ type: 'error', message: t('seller.listing.error') });
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -136,17 +173,18 @@ export const useSellerForm = () => {
         userGroups,
         isLoading,
         error,
-        price,
         status,
         telegramUserId,
         showPermissionModal,
         groupWithMissingPermissions,
+        plans,
         REQUIRED_PERMISSIONS,
         setCurrentStep,
-        setPrice,
         setShowPermissionModal,
         fetchUserGroups,
         handleGroupSelect,
+        addPlan,
+        removePlan,
         handleSubmit,
         getGroupPhotoUrl,
         checkGroupPermissions,
