@@ -111,6 +111,45 @@ export const useSellerForm = () => {
         }
     };
 
+    const fetchExistingPlans = async (groupId: string) => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const token = localStorage.getItem('authToken');
+            const response = await fetch(`http://localhost:3001/api/telegram/groups/${groupId}/subscription-plans`, {
+                headers: {
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch subscription plans');
+            }
+            const data = await response.json();
+            // Transform the API response format to match what the component expects
+            const transformedPlans = data.map((plan: any) => ({
+                id: plan.id.toString(),
+                type: plan.type,
+                ...(plan.type === 'token-holding'
+                    ? {
+                        tokenAddress: plan.details.tokenAddress,
+                        requiredAmount: plan.details.requiredAmount,
+                    }
+                    : {
+                        duration: plan.details.duration,
+                        price: plan.details.price,
+                    }
+                )
+            }));
+            setPlans(transformedPlans);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to fetch subscription plans');
+            console.error('Error fetching subscription plans:', err);
+            setPlans([]);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const handleGroupSelect = async (group: TelegramGroup) => {
         const missingPermissions = checkGroupPermissions(group);
         if (missingPermissions.length > 0) {
@@ -119,6 +158,7 @@ export const useSellerForm = () => {
             return;
         }
         setSelectedGroup(group);
+        await fetchExistingPlans(group.id);
         setCurrentStep('subscription_plan');
     };
 
@@ -137,7 +177,7 @@ export const useSellerForm = () => {
         setError(null);
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`http://localhost:3001/api/telegram/groups/${selectedGroup.id}/subscriptions`, {
+            const response = await fetch(`http://localhost:3001/api/telegram/groups/${selectedGroup.id}/subscription-plans`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
