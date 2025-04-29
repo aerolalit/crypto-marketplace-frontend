@@ -6,14 +6,14 @@ export type Step = 'telegram_login' | 'search_group' | 'subscription_plan';
 export type PlanType = 'token-holding' | 'one-time';
 
 export interface TokenHoldingPlan {
-    id: string;
+    id?: string;
     type: 'token-holding';
     tokenAddress: string;
     requiredAmount: string;
 }
 
 export interface OneTimePlan {
-    id: string;
+    id?: string;
     type: 'one-time';
     duration: number;
     price: string;
@@ -163,8 +163,13 @@ export const useSellerForm = () => {
     };
 
     const addPlan = (plan: Omit<SubscriptionPlan, 'id'>) => {
-        const planWithId = { ...plan, id: Math.random().toString(36).substr(2, 9) } as SubscriptionPlan;
-        setPlans((prev) => [...prev, planWithId]);
+        // If the plan already has an ID (from existing subscriptions), preserve it
+        if ('id' in plan) {
+            setPlans((prev) => [...prev, plan as SubscriptionPlan]);
+        } else {
+            // For new plans without IDs, just add them as is
+            setPlans((prev) => [...prev, plan as SubscriptionPlan]);
+        }
     };
 
     const removePlan = (planId: string) => {
