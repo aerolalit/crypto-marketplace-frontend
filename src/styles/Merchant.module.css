@@ -1,0 +1,531 @@
+.container {
+    padding: 0 2rem;
+}
+
+.main {
+    min-height: 100vh;
+    padding: 4rem 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    margin: 0;
+    line-height: 1.15;
+    font-size: 4rem;
+    text-align: center;
+}
+
+.steps {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 2rem;
+}
+
+.stepContent {
+    margin-top: 2rem;
+    padding: 2rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.connectPrompt {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.groupList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.groupCard {
+    background: white;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    width: 100%;
+}
+
+.groupCard:hover {
+    border-color: #0070f3;
+    transform: translateY(-2px);
+}
+
+.groupCardContent {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.groupPhoto {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.groupPhoto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.groupInfo {
+    flex: 1;
+}
+
+.groupInfo h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.groupInfo p {
+    margin: 0.5rem 0 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.verifiedBadge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+.noGroups {
+    text-align: center;
+    padding: 2.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
+.noGroups h3 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.noGroups p {
+    color: #5a6c7d;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.instructionsList {
+    text-align: left;
+    background: #f8fafc;
+    padding: 1.5rem 2rem;
+    border-radius: 8px;
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.instructionsList li {
+    margin-bottom: 1.5rem;
+    color: #4a5568;
+    display: flex;
+    align-items: flex-start;
+    line-height: 1.5;
+}
+
+.instructionsList li:last-child {
+    margin-bottom: 0;
+}
+
+.instructionNumber {
+    background: #0070f3;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.instructionText {
+    flex: 1;
+}
+
+.botLink {
+    display: inline-block;
+    color: #0070f3;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 112, 243, 0.1);
+    border-radius: 6px;
+    margin: 0.5rem 0;
+    transition: all 0.2s ease;
+}
+
+.botLink:hover {
+    background: rgba(0, 112, 243, 0.15);
+    transform: translateY(-1px);
+}
+
+.refreshButton {
+    margin-top: 2rem;
+    padding: 0.75rem 1.5rem;
+    background: #0070f3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.refreshButton:hover:not(:disabled) {
+    background: #0061d5;
+    transform: translateY(-1px);
+}
+
+.refreshButton:disabled {
+    background: #a0aec0;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.buttonContent {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.spinning {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+}
+
+.error {
+    color: #d32f2f;
+    text-align: center;
+    padding: 1rem;
+}
+
+.status {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.status.success {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status.error {
+    background: #ffebee;
+    color: #d32f2f;
+}
+
+/* Subscription Plan Step Styles */
+.subscriptionPlanStep {
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.existingPlans {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.planCard {
+    background: #f9f9f9;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.planCard h3 {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+}
+
+.planCard p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.removeButton {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.removeButton:hover {
+    background: #cc0000;
+}
+
+.addNewPlan {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eaeaea;
+}
+
+.planTypeSelector {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.planTypeButton {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.planTypeButton.active {
+    background: #0070f3;
+    color: white;
+    border-color: #0070f3;
+}
+
+.planConfig {
+    margin-top: 1rem;
+}
+
+.formGroup {
+    margin-bottom: 1rem;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.formGroup input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.addPlanButton {
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: #0070f3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.addPlanButton:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.submitButton {
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.1rem;
+}
+
+.submitButton:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Step Indicator Styles */
+.stepIndicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 1rem;
+    border-bottom: 2px solid #eaeaea;
+    color: #666;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.step.active {
+    border-bottom-color: #0070f3;
+    color: #0070f3;
+}
+
+/* Permission Modal Styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modalHeader {
+    padding: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modalHeader h3 {
+    margin: 0;
+    color: #2d3748;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: #a0aec0;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+}
+
+.closeButton:hover {
+    background: #f7fafc;
+    color: #4a5568;
+}
+
+.modalContent {
+    padding: 1.5rem;
+}
+
+.modalContent p {
+    color: #4a5568;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.modalContent strong {
+    color: #2d3748;
+}
+
+.permissionsList {
+    margin: 0.5rem 0 0 1rem;
+    padding: 0.5rem 0;
+}
+
+.permissionsList li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+    font-size: 0.95rem;
+    color: #e53e3e;
+}
+
+.permissionsList li::before {
+    content: "×";
+    position: absolute;
+    left: 0;
+    color: #e53e3e;
+    font-weight: bold;
+}
+
+.modalActions {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}

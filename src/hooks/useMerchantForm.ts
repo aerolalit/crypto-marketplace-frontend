@@ -65,7 +65,7 @@ export interface Status {
     message: string;
 }
 
-export const useSellerForm = () => {
+export const useMerchantForm = () => {
     const { t } = useTranslation('common');
     const [currentStep, setCurrentStep] = useState<Step>('telegram_login');
     const [selectedGroup, setSelectedGroup] = useState<TelegramGroup | null>(null);
@@ -193,7 +193,7 @@ export const useSellerForm = () => {
             if (!response.ok) {
                 throw new Error('Failed to create subscription plans');
             }
-            setStatus({ type: 'success', message: t('seller.listing.success') });
+            setStatus({ type: 'success', message: t('merchant.listing.success') });
             setTimeout(() => {
                 setCurrentStep('telegram_login');
                 setSelectedGroup(null);
@@ -206,7 +206,7 @@ export const useSellerForm = () => {
             }, 2000);
         } catch (error) {
             setError(error instanceof Error ? error.message : 'Failed to create subscription plans');
-            setStatus({ type: 'error', message: t('seller.listing.error') });
+            setStatus({ type: 'error', message: t('merchant.listing.error') });
         } finally {
             setIsLoading(false);
         }

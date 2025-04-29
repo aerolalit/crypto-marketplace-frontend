@@ -5,14 +5,15 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import type { GetStaticProps } from 'next';
 import { useAccount } from 'wagmi';
 import { ConnectButton } from '../components/ConnectButton';
-import { StepIndicator } from '../components/seller/StepIndicator';
-import { SubscriptionPlanStep } from '../components/seller/SubscriptionPlanStep';
+import { StepIndicator } from '../components/merchant/StepIndicator';
+import { SubscriptionPlanStep } from '../components/merchant/SubscriptionPlanStep';
 import TelegramLoginButton from '../components/TelegramLoginButton';
-import { PermissionModal } from '../components/seller/PermissionModal';
-import { useSellerForm } from '../hooks/useSellerForm';
-import styles from '../styles/Seller.module.css';
+import { PermissionModal } from '../components/merchant/PermissionModal';
+import { useMerchantForm } from '../hooks/useMerchantForm';
+import styles from '../styles/Merchant.module.css';
+import { FiRefreshCw } from 'react-icons/fi';
 
-const Seller: NextPage = () => {
+const Merchant: NextPage = () => {
     const { t } = useTranslation('common');
     const { isConnected } = useAccount();
     const {
@@ -34,36 +35,63 @@ const Seller: NextPage = () => {
         handleSubmit,
         addPlan,
         removePlan,
-    } = useSellerForm();
+    } = useMerchantForm();
 
-    const pageTitle = `${t('seller.title')} - ${t('title')}`;
+    const pageTitle = `${t('merchant.title')} - ${t('title')}`;
 
     const NoGroupsFound = () => (
         <div className={styles.noGroups}>
-            <h3>No Groups Found</h3>
-            <p>Follow these steps to add your Telegram group:</p>
-            <ol>
-                <li>Add our bot <a
-                    href="https://t.me/Invite_manager1_bot"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.botLink}
-                >@Invite_manager1_bot</a> to your group</li>
-                <li>Make the bot an administrator</li>
-                <li>Grant the following permissions:
-                    <ul>
-                        <li>Delete messages</li>
-                        <li>Ban users</li>
-                        <li>Invite users via link</li>
-                    </ul>
+            <h3>{t('merchant.search.no_results')}</h3>
+            <p>{t('merchant.search.instructions')}</p>
+            <div className={styles.instructionsList}>
+                <li>
+                    <span className={styles.instructionNumber}>1</span>
+                    <div className={styles.instructionText}>
+                        {t('merchant.search.add_bot')}
+                        <a
+                            href="https://t.me/Invite_manager1_bot"
+                            className={styles.botLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            @Invite_manager1_bot
+                        </a>
+                    </div>
                 </li>
-            </ol>
+                <li>
+                    <span className={styles.instructionNumber}>2</span>
+                    <div className={styles.instructionText}>
+                        {t('merchant.search.make_admin')}
+                        <ul className={styles.permissionsList}>
+                            <li>{t('merchant.permissions.delete_messages')}</li>
+                            <li>{t('merchant.permissions.ban_users')}</li>
+                            <li>{t('merchant.permissions.invite_users')}</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <span className={styles.instructionNumber}>3</span>
+                    <div className={styles.instructionText}>
+                        {t('merchant.search.try_again')}
+                    </div>
+                </li>
+            </div>
             <button
                 className={styles.refreshButton}
                 onClick={() => telegramUserId && fetchUserGroups(telegramUserId)}
-                disabled={!telegramUserId}
+                disabled={!telegramUserId || isLoading}
             >
-                Refresh Groups
+                {isLoading ? (
+                    <span className={styles.buttonContent}>
+                        <FiRefreshCw className={styles.spinning} />
+                        {t('merchant.search.refreshing')}
+                    </span>
+                ) : (
+                    <span className={styles.buttonContent}>
+                        <FiRefreshCw />
+                        {t('merchant.search.refresh')}
+                    </span>
+                )}
             </button>
         </div>
     );
@@ -77,7 +105,7 @@ const Seller: NextPage = () => {
             </Head>
 
             <main className={styles.main}>
-                <h1 className={styles.title}>{t('seller.title')}</h1>
+                <h1 className={styles.title}>{t('merchant.title')}</h1>
 
                 {showPermissionModal && groupWithMissingPermissions && (
                     <PermissionModal
@@ -116,7 +144,7 @@ const Seller: NextPage = () => {
 
                         {currentStep === 'search_group' && (
                             <div className={styles.stepContent}>
-                                <h2>{t('seller.steps.search_group')}</h2>
+                                <h2>{t('merchant.steps.search_group')}</h2>
                                 {isLoading ? (
                                     <div className={styles.loading}>Loading your groups...</div>
                                 ) : error ? (
@@ -188,4 +216,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     };
 };
 
-export default Seller; 
+export default Merchant; 

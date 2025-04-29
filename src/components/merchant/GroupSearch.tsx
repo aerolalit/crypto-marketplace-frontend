@@ -1,5 +1,5 @@
 import { useTranslation } from 'next-i18next';
-import styles from '../../styles/Seller.module.css';
+import styles from '../../styles/Merchant.module.css';
 
 interface Group {
     id: string;
@@ -28,17 +28,17 @@ export const GroupSearch = ({
 
     return (
         <div className={styles.stepContent}>
-            <h2>{t('seller.steps.search_group')}</h2>
+            <h2>{t('merchant.steps.search_group')}</h2>
             <div className={styles.searchBox}>
                 <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => onSearchQueryChange(e.target.value)}
-                    placeholder={t('seller.search.placeholder')}
+                    placeholder={t('merchant.search.placeholder')}
                     onKeyPress={(e) => e.key === 'Enter' && onSearch()}
                 />
                 <button onClick={onSearch} disabled={isSearching}>
-                    {isSearching ? t('seller.search.searching') : 'Search'}
+                    {isSearching ? t('merchant.search.searching') : 'Search'}
                 </button>
             </div>
             <div className={styles.searchResults}>
@@ -54,7 +54,7 @@ export const GroupSearch = ({
                     </button>
                 ))}
                 {searchResults.length === 0 && !isSearching && (
-                    <p>{t('seller.search.no_results')}</p>
+                    <p>{t('merchant.search.no_results')}</p>
                 )}
             </div>
         </div>

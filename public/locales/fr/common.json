@@ -6,12 +6,64 @@
     "navigation": {
         "home": "Accueil",
         "marketplace": "Marché",
-        "profile": "Profil"
+        "profile": "Profil",
+        "merchant": "Devenir Commerçant"
     },
     "wallet": {
         "connect": "Connecter le Portefeuille",
         "disconnect": "Déconnecter",
         "connected": "Connecté",
         "not_connected": "Non Connecté"
+    },
+    "merchant": {
+        "title": "Créer Votre Abonnement",
+        "steps": {
+            "select_product": "Sélectionner le Type de Produit",
+            "search_group": "Sélectionner Votre Groupe",
+            "verify_ownership": "Vérifier la Propriété du Groupe",
+            "subscription_plan": "Configurer les Plans d'Abonnement"
+        },
+        "product_types": {
+            "telegram_invite": "Invitation au Groupe Telegram"
+        },
+        "search": {
+            "placeholder": "Entrez le nom ou le lien du groupe",
+            "searching": "Recherche en cours...",
+            "no_results": "Aucun Groupe Trouvé",
+            "error": "Erreur lors de la recherche",
+            "instructions": "Suivez ces étapes pour ajouter votre groupe Telegram :",
+            "add_bot": "Ajoutez notre bot à votre groupe :",
+            "make_admin": "Faites du bot un administrateur avec ces permissions :",
+            "try_again": "Cliquez sur actualiser une fois ces étapes terminées",
+            "refresh": "Actualiser les Groupes",
+            "refreshing": "Actualisation..."
+        },
+        "permissions": {
+            "delete_messages": "Supprimer les Messages",
+            "ban_users": "Bannir les Utilisateurs",
+            "invite_users": "Inviter des Utilisateurs par Lien"
+        },
+        "verification": {
+            "title": "Vérifier la Propriété du Groupe",
+            "message": "Veuillez envoyer ce message de vérification à votre groupe :",
+            "copy": "Copier le Message",
+            "copied": "Copié !",
+            "verify": "Vérifier la Propriété",
+            "verifying": "Vérification...",
+            "success": "Propriété vérifiée !",
+            "error": "Échec de la vérification"
+        },
+        "price": {
+            "title": "Définir le Prix",
+            "label": "Prix (ETH)",
+            "placeholder": "Entrez le prix en ETH",
+            "submit": "Lister le Groupe",
+            "success": "Groupe listé avec succès !",
+            "error": "Échec de la liste du groupe. Veuillez réessayer."
+        },
+        "listing": {
+            "success": "Groupe listé avec succès !",
+            "error": "Échec de la liste du groupe. Veuillez réessayer."
+        }
     }
 }

@@ -1,6 +1,6 @@
 import { useTranslation } from 'next-i18next';
-import styles from '../../styles/Seller.module.css';
-import { TelegramGroup } from '../../hooks/useSellerForm';
+import styles from '../../styles/Merchant.module.css';
+import { TelegramGroup } from '../../hooks/useMerchantForm';
 
 interface VerificationStepProps {
     group: TelegramGroup;
@@ -21,12 +21,12 @@ export const VerificationStep = ({
 
     return (
         <div className={styles.stepContent}>
-            <h2>{t('seller.verification.title')}</h2>
-            <p>{t('seller.verification.message')}</p>
+            <h2>{t('merchant.verification.title')}</h2>
+            <p>{t('merchant.verification.message')}</p>
             <div className={styles.verificationMessage}>
                 <code>{verificationMessage}</code>
                 <button onClick={onCopyMessage}>
-                    {t('seller.verification.copy')}
+                    {t('merchant.verification.copy')}
                 </button>
             </div>
             <button
@@ -34,7 +34,7 @@ export const VerificationStep = ({
                 disabled={isVerifying}
                 className={styles.verifyButton}
             >
-                {isVerifying ? t('seller.verification.verifying') : t('seller.verification.verify')}
+                {isVerifying ? t('merchant.verification.verifying') : t('merchant.verification.verify')}
             </button>
         </div>
     );

@@ -6,12 +6,64 @@
     "navigation": {
         "home": "Inicio",
         "marketplace": "Mercado",
-        "profile": "Perfil"
+        "profile": "Perfil",
+        "merchant": "Conviértete en Comerciante"
     },
     "wallet": {
         "connect": "Conectar Billetera",
         "disconnect": "Desconectar",
         "connected": "Conectado",
         "not_connected": "No Conectado"
+    },
+    "merchant": {
+        "title": "Crear Tu Suscripción",
+        "steps": {
+            "select_product": "Seleccionar Tipo de Producto",
+            "search_group": "Seleccionar Tu Grupo",
+            "verify_ownership": "Verificar Propiedad del Grupo",
+            "subscription_plan": "Configurar Planes de Suscripción"
+        },
+        "product_types": {
+            "telegram_invite": "Invitación a Grupo de Telegram"
+        },
+        "search": {
+            "placeholder": "Ingresa nombre o enlace del grupo",
+            "searching": "Buscando...",
+            "no_results": "No Se Encontraron Grupos",
+            "error": "Error al buscar grupos",
+            "instructions": "Sigue estos pasos para agregar tu grupo de Telegram:",
+            "add_bot": "Agrega nuestro bot a tu grupo:",
+            "make_admin": "Haz que el bot sea administrador con estos permisos:",
+            "try_again": "Haz clic en actualizar cuando hayas completado estos pasos",
+            "refresh": "Actualizar Grupos",
+            "refreshing": "Actualizando..."
+        },
+        "permissions": {
+            "delete_messages": "Eliminar Mensajes",
+            "ban_users": "Banear Usuarios",
+            "invite_users": "Invitar Usuarios por Enlace"
+        },
+        "verification": {
+            "title": "Verificar Propiedad del Grupo",
+            "message": "Por favor envía este mensaje de verificación a tu grupo:",
+            "copy": "Copiar Mensaje",
+            "copied": "¡Copiado!",
+            "verify": "Verificar Propiedad",
+            "verifying": "Verificando...",
+            "success": "¡Propiedad verificada!",
+            "error": "Falló la verificación"
+        },
+        "price": {
+            "title": "Establecer Precio",
+            "label": "Precio (ETH)",
+            "placeholder": "Ingresa precio en ETH",
+            "submit": "Listar Grupo",
+            "success": "¡Grupo listado exitosamente!",
+            "error": "Error al listar el grupo. Por favor intenta de nuevo."
+        },
+        "listing": {
+            "success": "¡Grupo listado exitosamente!",
+            "error": "Error al listar el grupo. Por favor intenta de nuevo."
+        }
     }
 }

@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import styles from '../../styles/Seller.module.css';
+import styles from '../../styles/Merchant.module.css';
 
 export type PlanType = 'token-holding' | 'one-time';
 
 export interface TokenHoldingPlan {
-    id: string;
+    id?: string;
     type: 'token-holding';
     tokenAddress: string;
     requiredAmount: string;
 }
 
 export interface OneTimePlan {
-    id: string;
+    id?: string;
     type: 'one-time';
     duration: number;
     price: string;
@@ -83,7 +83,7 @@ export const SubscriptionPlanStep: React.FC<SubscriptionPlanStepProps> = ({
                         )}
                         <button
                             className={styles.removeButton}
-                            onClick={() => onRemovePlan(plan.id)}
+                            onClick={() => onRemovePlan(plan.id || '')}
                         >
                             Remove Plan
                         </button>

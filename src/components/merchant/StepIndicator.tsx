@@ -1,6 +1,6 @@
 import { useTranslation } from 'next-i18next';
-import styles from '../../styles/Seller.module.css';
-import { Step } from '../../hooks/useSellerForm';
+import styles from '../../styles/Merchant.module.css';
+import { Step } from '../../hooks/useMerchantForm';
 
 interface StepIndicatorProps {
     currentStep: Step;
@@ -15,10 +15,10 @@ export const StepIndicator = ({ currentStep }: StepIndicatorProps) => {
                 Telegram Login
             </div>
             <div className={`${styles.step} ${currentStep === 'search_group' ? styles.active : ''}`}>
-                {t('seller.steps.search_group')}
+                {t('merchant.steps.search_group')}
             </div>
-            <div className={`${styles.step} ${currentStep === 'set_price' ? styles.active : ''}`}>
-                {t('seller.steps.set_price')}
+            <div className={`${styles.step} ${currentStep === 'subscription_plan' ? styles.active : ''}`}>
+                {t('merchant.steps.subscription_plan')}
             </div>
         </div>
     );

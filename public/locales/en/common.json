@@ -7,7 +7,7 @@
         "home": "Home",
         "marketplace": "Marketplace",
         "profile": "Profile",
-        "seller": "Sell Invites"
+        "merchant": "Become a Merchant"
     },
     "wallet": {
         "connect": "Connect Wallet",
@@ -15,13 +15,13 @@
         "connected": "Connected",
         "not_connected": "Not Connected"
     },
-    "seller": {
-        "title": "List Your Telegram Group",
+    "merchant": {
+        "title": "Create Your Subscription",
         "steps": {
             "select_product": "Select Product Type",
-            "search_group": "Search Telegram Group",
+            "search_group": "Select Your Group",
             "verify_ownership": "Verify Group Ownership",
-            "set_price": "Set Price"
+            "subscription_plan": "Configure Subscription Plans"
         },
         "product_types": {
             "telegram_invite": "Telegram Group Invite"
@@ -29,8 +29,19 @@
         "search": {
             "placeholder": "Enter group name or link",
             "searching": "Searching...",
-            "no_results": "No groups found",
-            "error": "Error searching groups"
+            "no_results": "No Groups Found",
+            "error": "Error searching groups",
+            "instructions": "Follow these steps to add your Telegram group:",
+            "add_bot": "Add our bot to your group:",
+            "make_admin": "Make the bot an administrator with these permissions:",
+            "try_again": "Click refresh once you've completed these steps",
+            "refresh": "Refresh Groups",
+            "refreshing": "Refreshing..."
+        },
+        "permissions": {
+            "delete_messages": "Delete Messages",
+            "ban_users": "Ban Users",
+            "invite_users": "Invite Users via Link"
         },
         "verification": {
             "title": "Verify Group Ownership",
@@ -47,6 +58,10 @@
             "label": "Price (ETH)",
             "placeholder": "Enter price in ETH",
             "submit": "List Group",
+            "success": "Group listed successfully!",
+            "error": "Failed to list group. Please try again."
+        },
+        "listing": {
             "success": "Group listed successfully!",
             "error": "Failed to list group. Please try again."
         }

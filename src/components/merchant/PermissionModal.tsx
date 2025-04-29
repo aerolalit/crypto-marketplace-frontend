@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from '../../styles/Seller.module.css';
-import { TelegramGroup } from '../../hooks/useSellerForm';
+import styles from '../../styles/Merchant.module.css';
+import { TelegramGroup } from '../../hooks/useMerchantForm';
 
 interface PermissionModalProps {
     group: TelegramGroup;

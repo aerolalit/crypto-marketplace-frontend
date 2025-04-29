@@ -1,5 +1,5 @@
 import { useTranslation } from 'next-i18next';
-import styles from '../../styles/Seller.module.css';
+import styles from '../../styles/Merchant.module.css';
 
 interface PriceStepProps {
     price: string;
@@ -18,15 +18,15 @@ export const PriceStep = ({
 
     return (
         <form onSubmit={onSubmit} className={styles.stepContent}>
-            <h2>{t('seller.price.title')}</h2>
+            <h2>{t('merchant.price.title')}</h2>
             <div className={styles.formGroup}>
-                <label htmlFor="price">{t('seller.price.label')}</label>
+                <label htmlFor="price">{t('merchant.price.label')}</label>
                 <input
                     type="number"
                     id="price"
                     value={price}
                     onChange={(e) => onPriceChange(e.target.value)}
-                    placeholder={t('seller.price.placeholder')}
+                    placeholder={t('merchant.price.placeholder')}
                     step="0.000000000000000001"
                     required
                 />
@@ -37,7 +37,7 @@ export const PriceStep = ({
                 </div>
             )}
             <button type="submit" className={styles.submitButton}>
-                {t('seller.price.submit')}
+                {t('merchant.price.submit')}
             </button>
         </form>
     );
