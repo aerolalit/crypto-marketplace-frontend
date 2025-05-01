@@ -54,36 +54,37 @@ export const useTelegramGroups = () => {
     const { token } = useAuth();
     const fetchedRef = useRef(false);
 
-    useEffect(() => {
-        const fetchGroups = async () => {
-            if (fetchedRef.current) return;
-            try {
-                setLoading(true);
-                setError(null);
+    const fetchGroupsFromApi = async () => {
+        if (!token) return;
 
-                const response = await fetch(`${API_BASE_URL}/telegram/groups/me`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
+        try {
+            setLoading(true);
+            setError(null);
 
-                if (!response.ok) {
-                    throw new Error('Failed to fetch telegram groups');
-                }
+            const response = await fetch(`${API_BASE_URL}/telegram/groups/me`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
 
-                const data = await response.json();
-                setGroups(data);
-                fetchedRef.current = true;
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'An error occurred');
-            } finally {
-                setLoading(false);
+            if (!response.ok) {
+                throw new Error('Failed to fetch telegram groups');
             }
-        };
 
-        if (token) {
-            fetchGroups();
+            const data = await response.json();
+            setGroups(data);
+            fetchedRef.current = true;
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'An error occurred');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (token && !fetchedRef.current) {
+            fetchGroupsFromApi();
         }
     }, [token]);
 
@@ -96,9 +97,7 @@ export const useTelegramGroups = () => {
         groups,
         loading,
         error,
-        fetchGroups: () => {
-            fetchedRef.current = false;
-        },
+        fetchGroups: fetchGroupsFromApi,
         redirectToTelegramAuth
     };
 }; 
