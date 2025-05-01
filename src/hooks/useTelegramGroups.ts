@@ -32,6 +32,23 @@ interface User {
     updatedAt: string;
 }
 
+interface SubscriptionPlanDetails {
+    price?: string;
+    duration?: number;
+    tokenAddress?: string;
+    requiredAmount?: string;
+}
+
+interface SubscriptionPlan {
+    groupId: string;
+    id: number;
+    userId: string;
+    type: 'one-time' | 'token-holding';
+    details: SubscriptionPlanDetails;
+    createdAt: string;
+    updatedAt: string;
+}
+
 export interface TelegramGroup {
     id: string;
     userId: string;
@@ -45,6 +62,7 @@ export interface TelegramGroup {
     updatedAt: string;
     addedBy: TelegramUser;
     user: User;
+    subscriptionPlans: SubscriptionPlan[];
 }
 
 export const useTelegramGroups = () => {

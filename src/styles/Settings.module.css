@@ -411,6 +411,63 @@
     margin-bottom: 1rem;
 }
 
+.plansList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 200px;
+}
+
+.planItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: #f3f4f6;
+    border-radius: 4px;
+}
+
+.planIcon {
+    width: 16px;
+    height: 16px;
+    color: #4b5563;
+}
+
+.planDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.planType {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #4b5563;
+}
+
+.planInfo {
+    font-size: 0.875rem;
+    color: #1f2937;
+}
+
+.plansLoading {
+    font-size: 0.875rem;
+    color: #6b7280;
+    padding: 0.5rem;
+}
+
+.plansError {
+    font-size: 0.875rem;
+    color: #dc2626;
+    padding: 0.5rem;
+}
+
+.noPlans {
+    font-size: 0.875rem;
+    color: #6b7280;
+    padding: 0.5rem;
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
