@@ -25,6 +25,11 @@ const USER_DATA_KEY = 'userData';
 
 const isBrowser = typeof window !== 'undefined';
 
+const getStoredToken = () => {
+    if (!isBrowser) return null;
+    return localStorage.getItem(AUTH_TOKEN_KEY);
+};
+
 const getStoredUserId = () => {
     if (!isBrowser) return null;
     const storedUser = localStorage.getItem(USER_DATA_KEY);
@@ -36,13 +41,23 @@ export function useAuth() {
     const { signMessageAsync } = useSignMessage();
     const [messageToSign, setMessageToSign] = useState<string | null>(null);
     const [userId, setUserId] = useState<string | null>(getStoredUserId);
+    const [token, setToken] = useState<string | null>(getStoredToken);
     const wasConnected = useRef(false);
+
+    // Initialize token from localStorage
+    useEffect(() => {
+        const storedToken = getStoredToken();
+        if (storedToken) {
+            setToken(storedToken);
+        }
+    }, []);
 
     // Reset states when wallet disconnects
     useEffect(() => {
         if (!isConnected && wasConnected.current) {
             setMessageToSign(null);
             setUserId(null);
+            setToken(null);
             if (isBrowser) {
                 localStorage.removeItem(AUTH_TOKEN_KEY);
                 localStorage.removeItem(USER_DATA_KEY);
@@ -59,7 +74,7 @@ export function useAuth() {
             if (error) throw new Error(error);
             return data;
         },
-        enabled: isConnected && !messageToSign && !localStorage.getItem(AUTH_TOKEN_KEY),
+        enabled: isConnected && !messageToSign && !token,
     });
 
     // Update messageToSign when messageData changes
@@ -105,6 +120,7 @@ export function useAuth() {
             }
             setUserId(user.id);
             setMessageToSign(null);
+            setToken(token);
 
             return token;
         } catch (error) {
@@ -113,10 +129,22 @@ export function useAuth() {
         }
     }, [messageToSign, address, signMessageAsync, verifySignature]);
 
+    const signOut = () => {
+        if (isBrowser) {
+            localStorage.removeItem(AUTH_TOKEN_KEY);
+            localStorage.removeItem(USER_DATA_KEY);
+        }
+        setToken(null);
+        setUserId(null);
+        setMessageToSign(null);
+    };
+
     return {
         isConnected,
-        signIn,
-        messageToSign,
+        token,
         userId,
+        messageToSign,
+        signIn,
+        signOut
     };
 } 

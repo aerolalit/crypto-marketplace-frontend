@@ -87,7 +87,7 @@
         },
         "error": {
             "invalidUrl": "Please enter valid URLs for all social media links",
-            "notConnected": "Please connect your wallet to edit your profile",
+            "notConnected": "Please connect your wallet to view your profile",
             "noUserId": "User ID not found"
         },
         "loading": "Loading profile..."
@@ -128,6 +128,7 @@
             "products": "Products",
             "customers": "Customers",
             "orders": "Orders",
+            "telegramGroups": "Telegram Groups",
             "issues": "Issues",
             "profile": "Profile"
         },
@@ -156,6 +157,54 @@
             "orders": {
                 "title": "Orders",
                 "description": "Track and manage your orders"
+            },
+            "telegramGroups": {
+                "title": "Telegram Groups",
+                "description": "Manage your Telegram group listings and subscriptions",
+                "addGroup": "Add New Group",
+                "noGroups": "No groups added yet",
+                "searchPlaceholder": "Search groups...",
+                "table": {
+                    "name": "Group Name",
+                    "members": "Members",
+                    "price": "Price",
+                    "status": "Status",
+                    "actions": "Actions"
+                },
+                "status": {
+                    "active": "Active",
+                    "inactive": "Inactive",
+                    "pending": "Pending Verification"
+                },
+                "actions": {
+                    "edit": "Edit Group",
+                    "delete": "Delete Group",
+                    "verify": "Verify Ownership",
+                    "activate": "Activate",
+                    "deactivate": "Deactivate"
+                },
+                "addForm": {
+                    "title": "Add New Telegram Group",
+                    "groupLink": "Group Link",
+                    "groupLinkPlaceholder": "Enter your Telegram group link",
+                    "price": "Subscription Price",
+                    "pricePlaceholder": "Enter price in ETH",
+                    "description": "Description",
+                    "descriptionPlaceholder": "Describe your group...",
+                    "submit": "Add Group",
+                    "cancel": "Cancel"
+                },
+                "messages": {
+                    "addSuccess": "Group added successfully",
+                    "addError": "Failed to add group",
+                    "deleteSuccess": "Group deleted successfully",
+                    "deleteError": "Failed to delete group",
+                    "updateSuccess": "Group updated successfully",
+                    "updateError": "Failed to update group",
+                    "verifySuccess": "Group verified successfully",
+                    "verifyError": "Failed to verify group",
+                    "botInstructions": "Please add our bot to your group and make it an admin"
+                }
             }
         }
     }

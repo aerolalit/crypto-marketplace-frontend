@@ -2,6 +2,25 @@
     padding: 1.5rem;
 }
 
+.loading {
+    text-align: center;
+    color: #4a5568;
+    font-size: 0.95rem;
+    padding: 2rem;
+}
+
+.error {
+    padding: 1rem;
+    background-color: #fed7d7;
+    border-radius: 0.5rem;
+    color: #c53030;
+    margin-bottom: 1.5rem;
+}
+
+.userInfo {
+    margin-bottom: 2rem;
+}
+
 .greeting {
     font-size: 1.5rem;
     font-weight: 600;
@@ -12,6 +31,55 @@
 .date {
     color: #666;
     margin-bottom: 2rem;
+}
+
+.userDetailsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.detailCard {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.detailIcon {
+    background-color: #ebf8ff;
+    color: #3182ce;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.detailContent h3 {
+    font-size: 0.875rem;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+}
+
+.detailContent p {
+    font-size: 0.95rem;
+    color: #1a202c;
+    word-break: break-all;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background-color: #fed7d7;
+    color: #c53030;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
 }
 
 .statsGrid {
@@ -69,6 +137,10 @@
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
+    }
+
+    .userDetailsGrid {
+        grid-template-columns: 1fr;
     }
 
     .statsGrid {
