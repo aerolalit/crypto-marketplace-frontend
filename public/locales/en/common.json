@@ -70,32 +70,93 @@
         "edit": {
             "title": "Edit Profile",
             "heading": "Edit Your Profile",
-            "description": "Update your profile information and social media links"
+            "description": "Update your profile information"
         },
         "fields": {
             "bio": "Bio",
             "social_links": "Social Media Links"
         },
         "placeholders": {
-            "bio": "Tell us about yourself...",
-            "social_url": "Enter your profile URL"
-        },
-        "validation": {
-            "validUrl": "Please enter a valid URL (e.g., https://twitter.com/username)"
+            "bio": "Tell us about yourself..."
         },
         "actions": {
             "save": "Save Changes",
             "saving": "Saving...",
             "add_link": "Add Social Link",
-            "remove_link": "Remove Social Link"
+            "remove_link": "Remove Link"
         },
         "error": {
+            "invalidUrl": "Please enter valid URLs for all social media links",
             "notConnected": "Please connect your wallet to edit your profile",
-            "fetch": "Failed to load profile",
-            "save": "Failed to save profile",
-            "noUserId": "User ID not found. Please try reconnecting your wallet.",
-            "invalidUrl": "Please enter valid URLs for all social media links"
+            "noUserId": "User ID not found"
         },
         "loading": "Loading profile..."
+    },
+    "settings": {
+        "nav": {
+            "profile": "Profile",
+            "products": "Products",
+            "telegram": "Telegram Groups",
+            "merchant": "Merchant Settings",
+            "settings": "General Settings"
+        },
+        "profile": {
+            "description": "Manage your profile information and social media links."
+        },
+        "products": {
+            "description": "View and manage your listed products."
+        },
+        "telegram": {
+            "description": "Configure and manage your Telegram group listings."
+        },
+        "merchant": {
+            "description": "Configure your merchant settings and payment preferences."
+        },
+        "general": {
+            "description": "Manage your general account settings and preferences."
+        }
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "description": "View and manage your store statistics",
+        "greeting": "Good {{time}}, {{name}}",
+        "stats_for_date": "Here are your stats for {{date}}",
+        "nav": {
+            "home": "Home",
+            "storeUsers": "Store Users",
+            "categories": "Categories",
+            "products": "Products",
+            "customers": "Customers",
+            "orders": "Orders",
+            "issues": "Issues",
+            "profile": "Profile"
+        },
+        "stats": {
+            "revenue": "Revenue",
+            "orders": "Orders",
+            "average_order": "Average Order Value"
+        },
+        "charts": {
+            "hourly_orders": "Hourly Order Statistics",
+            "weekly_sales": "Weekly Sales Statistics"
+        },
+        "sections": {
+            "profile": {
+                "title": "Profile Settings",
+                "description": "Manage your profile information and social media links"
+            },
+            "products": {
+                "title": "Products",
+                "description": "View and manage your listed products"
+            },
+            "customers": {
+                "title": "Customers",
+                "description": "Manage your customer relationships"
+            },
+            "orders": {
+                "title": "Orders",
+                "description": "Track and manage your orders"
+            }
+        }
     }
 }
