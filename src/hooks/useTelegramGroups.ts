@@ -61,7 +61,7 @@ export const useTelegramGroups = () => {
             setLoading(true);
             setError(null);
 
-            const response = await fetch(`${API_BASE_URL}/telegram/groups/me`, {
+            const response = await fetch(`${API_BASE_URL}/telegram/groups/my-groups`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
