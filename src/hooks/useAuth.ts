@@ -6,23 +6,47 @@ import { AUTH_TOKEN_KEY } from '../constants/config';
 
 interface AuthResponse {
     token: string;
+    user: {
+        id: string;
+        walletAddress: string;
+        username: string | null;
+        email: string | null;
+        emailVerified: boolean;
+        createdAt: string;
+        updatedAt: string;
+    };
 }
 
 interface MessageResponse {
     message: string;
 }
 
+const USER_DATA_KEY = 'userData';
+
+const isBrowser = typeof window !== 'undefined';
+
+const getStoredUserId = () => {
+    if (!isBrowser) return null;
+    const storedUser = localStorage.getItem(USER_DATA_KEY);
+    return storedUser ? JSON.parse(storedUser).id : null;
+};
+
 export function useAuth() {
     const { address, isConnected } = useAccount();
     const { signMessageAsync } = useSignMessage();
     const [messageToSign, setMessageToSign] = useState<string | null>(null);
+    const [userId, setUserId] = useState<string | null>(getStoredUserId);
     const wasConnected = useRef(false);
 
     // Reset states when wallet disconnects
     useEffect(() => {
         if (!isConnected && wasConnected.current) {
             setMessageToSign(null);
-            localStorage.removeItem(AUTH_TOKEN_KEY);
+            setUserId(null);
+            if (isBrowser) {
+                localStorage.removeItem(AUTH_TOKEN_KEY);
+                localStorage.removeItem(USER_DATA_KEY);
+            }
         }
         wasConnected.current = isConnected;
     }, [isConnected]);
@@ -69,13 +93,17 @@ export function useAuth() {
             const signature = await signMessageAsync({ message: messageToSign });
 
             // Verify the signature
-            const { token } = await verifySignature({
+            const { token, user } = await verifySignature({
                 signature,
                 message: messageToSign,
             });
 
-            // Store the token and clear message
-            localStorage.setItem(AUTH_TOKEN_KEY, token);
+            // Store the token and user data, and clear message
+            if (isBrowser) {
+                localStorage.setItem(AUTH_TOKEN_KEY, token);
+                localStorage.setItem(USER_DATA_KEY, JSON.stringify(user));
+            }
+            setUserId(user.id);
             setMessageToSign(null);
 
             return token;
@@ -89,5 +117,6 @@ export function useAuth() {
         isConnected,
         signIn,
         messageToSign,
+        userId,
     };
 } 

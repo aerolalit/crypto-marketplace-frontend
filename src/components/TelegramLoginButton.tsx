@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { TELEGRAM_BOT_NAME } from "../constants/config";
+import { API_BASE_URL, TELEGRAM_BOT_NAME } from "../constants/config";
 import { useAuth } from "../hooks/useAuth";
 import styles from '../styles/TelegramLogin.module.css';
 
@@ -26,7 +26,7 @@ const TelegramLoginButton = ({ onLoginSuccess }: TelegramLoginButtonProps) => {
         // Global callback function
         (window as any).onTelegramAuth = (user: TelegramUser) => {
             const token = localStorage.getItem('authToken');
-            fetch(`http://localhost:3001/api/auth/telegram`, {
+            fetch(`${API_BASE_URL}/auth/telegram`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

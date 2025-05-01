@@ -3,14 +3,14 @@ import { useAuth } from '../hooks/useAuth';
 import { useEffect } from 'react';
 
 export function ConnectButton() {
-    const { isConnected, signIn, hasRequestedSignature, messageToSign } = useAuth();
+    const { isConnected, signIn, messageToSign } = useAuth();
 
     useEffect(() => {
-        // Only trigger sign in when we have a message to sign and haven't requested signature yet
-        if (isConnected && messageToSign && !hasRequestedSignature) {
+        // Trigger sign in when we have a message to sign
+        if (isConnected && messageToSign) {
             signIn();
         }
-    }, [isConnected, messageToSign, hasRequestedSignature, signIn]);
+    }, [isConnected, messageToSign, signIn]);
 
     return <RainbowKitConnectButton />;
 } 

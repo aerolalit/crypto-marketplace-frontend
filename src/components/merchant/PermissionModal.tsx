@@ -31,10 +31,10 @@ export const PermissionModal: React.FC<PermissionModalProps> = ({
                     <ol className={styles.instructionsList}>
                         <li>Open your Telegram group</li>
                         <li>Click on the group name at the top</li>
-                        <li>Select "Administrators"</li>
-                        <li>Find "@Invite_manager1_bot" in the list</li>
+                        <li>Select &ldquo;Administrators&rdquo;</li>
+                        <li>Find &ldquo;@Invite_manager1_bot&rdquo; in the list</li>
                         <li>Enable the missing permissions listed above</li>
-                        <li>Click "Save" to apply the changes</li>
+                        <li>Click &ldquo;Save&rdquo; to apply the changes</li>
                     </ol>
                     <div className={styles.modalActions}>
                         <button className={styles.refreshButton} onClick={onClose}>

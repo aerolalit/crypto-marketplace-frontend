@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'next-i18next';
+import { API_BASE_URL } from '../constants/config';
 
 export type Step = 'telegram_login' | 'search_group' | 'subscription_plan';
 
@@ -79,7 +80,7 @@ export const useMerchantForm = () => {
     const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
 
     const getGroupPhotoUrl = (groupId: string, size: 'small' | 'big' = 'small') => {
-        return `http://localhost:3001/api/telegram/groups/${groupId}/photo?size=${size}`;
+        return `${API_BASE_URL}/telegram/groups/${groupId}/photo?size=${size}`;
     };
 
     const checkGroupPermissions = (group: TelegramGroup): string[] => {
@@ -91,7 +92,7 @@ export const useMerchantForm = () => {
         setError(null);
         setTelegramUserId(tgUserId);
         try {
-            const response = await fetch(`http://localhost:3001/api/telegram/groups-by-user?tgUserId=${tgUserId}`);
+            const response = await fetch(`${API_BASE_URL}/telegram/groups-by-user?tgUserId=${tgUserId}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch groups');
             }
@@ -116,7 +117,7 @@ export const useMerchantForm = () => {
         setError(null);
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`http://localhost:3001/api/telegram/groups/${groupId}/subscription-plans`, {
+            const response = await fetch(`${API_BASE_URL}/telegram/groups/${groupId}/subscription-plans`, {
                 headers: {
                     ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
@@ -182,7 +183,7 @@ export const useMerchantForm = () => {
         setError(null);
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`http://localhost:3001/api/telegram/groups/${selectedGroup.id}/subscription-plans`, {
+            const response = await fetch(`${API_BASE_URL}/telegram/groups/${selectedGroup.id}/subscription-plans`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

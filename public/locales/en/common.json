@@ -65,5 +65,37 @@
             "success": "Group listed successfully!",
             "error": "Failed to list group. Please try again."
         }
+    },
+    "profile": {
+        "edit": {
+            "title": "Edit Profile",
+            "heading": "Edit Your Profile",
+            "description": "Update your profile information and social media links"
+        },
+        "fields": {
+            "bio": "Bio",
+            "social_links": "Social Media Links"
+        },
+        "placeholders": {
+            "bio": "Tell us about yourself...",
+            "social_url": "Enter your profile URL"
+        },
+        "validation": {
+            "validUrl": "Please enter a valid URL (e.g., https://twitter.com/username)"
+        },
+        "actions": {
+            "save": "Save Changes",
+            "saving": "Saving...",
+            "add_link": "Add Social Link",
+            "remove_link": "Remove Social Link"
+        },
+        "error": {
+            "notConnected": "Please connect your wallet to edit your profile",
+            "fetch": "Failed to load profile",
+            "save": "Failed to save profile",
+            "noUserId": "User ID not found. Please try reconnecting your wallet.",
+            "invalidUrl": "Please enter valid URLs for all social media links"
+        },
+        "loading": "Loading profile..."
     }
 }
