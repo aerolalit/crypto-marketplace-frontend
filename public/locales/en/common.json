@@ -275,7 +275,10 @@
                 "refresh": "Refresh",
                 "refreshing": "Refreshing...",
                 "openInTelegram": "Open Bot in Telegram",
-                "botInstructions": "Please add our bot to your group and make it an admin"
+                "botInstructions": "Please add our bot to your group and make it an admin",
+                "deployButton": "Deploy to Blockchain",
+                "reviewAndDeployTitle": "Review & Deploy",
+                "confirmAndDeploy": "Confirm & Deploy"
             }
         }
     },

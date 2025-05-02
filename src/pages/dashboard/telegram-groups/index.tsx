@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { FiPlus, FiAlertCircle, FiEdit2, FiMessageCircle, FiUserX, FiInfo, FiPlusCircle, FiRefreshCw, FiClock, FiDollarSign, FiTrash2 } from 'react-icons/fi';
+import { FiPlus, FiAlertCircle, FiEdit2, FiMessageCircle, FiUserX, FiInfo, FiPlusCircle, FiRefreshCw, FiClock, FiDollarSign, FiTrash2, FiUploadCloud } from 'react-icons/fi';
 import { DashboardLayout } from '../../../components/layouts/DashboardLayout';
 import { GroupPhoto } from '../../../components/telegram/GroupPhoto';
 import { UserAvatar } from '../../../components/telegram/UserAvatar';
@@ -33,6 +33,8 @@ const TelegramGroupsPage = () => {
     const [confirmDelete, setConfirmDelete] = useState<{ planId: string, groupId: string } | null>(null);
     const [isDeleting, setIsDeleting] = useState(false);
     const { token } = useAuth();
+    const [deployModalGroup, setDeployModalGroup] = useState<any | null>(null);
+    const [isDeploying, setIsDeploying] = useState(false);
 
     const handleBotLink = () => {
         window.open(BOT_LINK, '_blank');
@@ -144,6 +146,21 @@ const TelegramGroupsPage = () => {
                 >
                     <FiPlus className={styles.buttonIcon} />
                     {t('merchant.subscription.addPlanButton')}
+                </button>
+            </div>
+        );
+    };
+
+    const renderReviewAndDeploy = (group: any) => {
+        if (!group.subscriptionPlans || group.subscriptionPlans.length === 0) return null;
+        return (
+            <div className={styles.reviewDeploySection}>
+                <button
+                    className={styles.deployButton}
+                    onClick={() => setDeployModalGroup(group)}
+                >
+                    <FiUploadCloud style={{ marginRight: 8 }} />
+                    {t('dashboard.sections.telegramGroups.deployButton')}
                 </button>
             </div>
         );
@@ -318,6 +335,7 @@ const TelegramGroupsPage = () => {
                                             </td>
                                             <td>
                                                 {renderSubscriptionPlans(group.subscriptionPlans, group.id, deletingPlanId)}
+                                                {renderReviewAndDeploy(group)}
                                             </td>
                                         </tr>
                                     ))}
@@ -363,6 +381,51 @@ const TelegramGroupsPage = () => {
                             </button>
                             <button className={styles.deleteButton} onClick={confirmDeletePlan} disabled={isDeleting}>
                                 {isDeleting ? t('common.submitting') : t('common.delete')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {deployModalGroup && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.confirmModal}>
+                        <div className={styles.modalHeader}>
+                            <h3>{t('dashboard.sections.telegramGroups.reviewAndDeployTitle')}</h3>
+                        </div>
+                        <div className={styles.modalContent}>
+                            <div className={styles.deployGroupSummary}>
+                                <div className={styles.deployGroupPhotoTitle}>
+                                    <GroupPhoto groupId={deployModalGroup.id} title={deployModalGroup.title} size={48} />
+                                    <div>
+                                        <div className={styles.deployGroupName}>{deployModalGroup.title}</div>
+                                        <div className={styles.deployGroupId}>ID: {deployModalGroup.id}</div>
+                                    </div>
+                                </div>
+                                <div className={styles.deployPlansList}>
+                                    {deployModalGroup.subscriptionPlans.map((plan: any) => (
+                                        <div key={plan.id} className={styles.deployPlanItem}>
+                                            <span className={styles.deployPlanType}>
+                                                {plan.type === 'token-holding'
+                                                    ? t('dashboard.sections.telegramGroups.table.subscriptionPlansInfo.tokenHolding')
+                                                    : t('dashboard.sections.telegramGroups.table.subscriptionPlansInfo.oneTime')}
+                                            </span>
+                                            <span className={styles.deployPlanInfo}>
+                                                {plan.type === 'token-holding'
+                                                    ? t('dashboard.sections.telegramGroups.table.subscriptionPlansInfo.requiredTokens', { amount: plan.details.requiredAmount })
+                                                    : `${t('dashboard.sections.telegramGroups.table.subscriptionPlansInfo.duration', { duration: plan.details.duration })} - ${t('dashboard.sections.telegramGroups.table.subscriptionPlansInfo.price', { price: plan.details.price })}`}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                        <div className={styles.modalActions}>
+                            <button className={styles.cancelButton} onClick={() => setDeployModalGroup(null)} disabled={isDeploying}>
+                                {t('common.cancel')}
+                            </button>
+                            <button className={styles.deployButton} onClick={() => { }} disabled={isDeploying}>
+                                {isDeploying ? t('common.submitting') : t('dashboard.sections.telegramGroups.confirmAndDeploy')}
                             </button>
                         </div>
                     </div>
