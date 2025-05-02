@@ -64,6 +64,64 @@
         "listing": {
             "success": "Group listed successfully!",
             "error": "Failed to list group. Please try again."
+        },
+        "subscription": {
+            "addPlan": "Add Subscription Plan",
+            "tokenHolding": "Token Holding",
+            "oneTime": "One-time Payment",
+            "tokenAddress": "Token Address",
+            "requiredAmount": "Required Amount",
+            "duration": "Duration",
+            "price": "Price",
+            "noPlans": "No subscription plans",
+            "addPlanButton": "Add Plan",
+            "tokenAddressPlaceholder": "Enter token contract address (0x...)",
+            "requiredAmountPlaceholder": "Enter required token amount",
+            "durationSuffix": "days",
+            "pricePlaceholder": "Enter price in ETH",
+            "ethSuffix": "ETH",
+            "planType": {
+                "title": "Select Plan Type",
+                "tokenHoldingDescription": "Users must hold a specific amount of tokens to join",
+                "oneTimeDescription": "Users pay once for a fixed duration access"
+            },
+            "validation": {
+                "tokenAddressRequired": "Token address is required",
+                "invalidTokenAddress": "Invalid token address format",
+                "requiredAmountRequired": "Required amount is required",
+                "invalidRequiredAmount": "Invalid amount format",
+                "durationRequired": "Duration is required",
+                "invalidDuration": "Duration must be greater than 0",
+                "priceRequired": "Price is required",
+                "invalidPrice": "Invalid price format"
+            },
+            "messages": {
+                "success": "Subscription plan added successfully",
+                "error": "Failed to add subscription plan",
+                "confirmDelete": "Are you sure you want to delete this plan?",
+                "deleteSuccess": "Plan deleted successfully",
+                "deleteError": "Failed to delete plan"
+            },
+            "planDetails": {
+                "tokenHolding": {
+                    "title": "Token Holding Plan",
+                    "description": "Members must hold tokens to join",
+                    "requiredTokens": "Required Tokens"
+                },
+                "oneTime": {
+                    "title": "One-time Payment Plan",
+                    "description": "Members pay once for access",
+                    "durationLabel": "Access Duration",
+                    "priceLabel": "Access Price"
+                }
+            },
+            "actions": {
+                "add": "Add Plan",
+                "edit": "Edit Plan",
+                "delete": "Delete Plan",
+                "save": "Save Changes",
+                "cancel": "Cancel"
+            }
         }
     },
     "profile": {
@@ -165,11 +223,19 @@
                 "noGroups": "No groups added yet",
                 "searchPlaceholder": "Search groups...",
                 "table": {
-                    "name": "Group Name",
+                    "name": "Name",
                     "members": "Members",
-                    "price": "Price",
-                    "status": "Status",
-                    "actions": "Actions"
+                    "permissions": "Permissions",
+                    "subscriptionPlans": "Subscription Plans",
+                    "addedBy": "Added By",
+                    "subscriptionPlansInfo": {
+                        "noPlans": "No subscription plans",
+                        "tokenHolding": "Token Holding",
+                        "oneTime": "One-time Payment",
+                        "requiredTokens": "{{amount}} tokens",
+                        "duration": "{{duration}} days",
+                        "price": "{{price}} ETH"
+                    }
                 },
                 "status": {
                     "active": "Active",
@@ -204,8 +270,37 @@
                     "verifySuccess": "Group verified successfully",
                     "verifyError": "Failed to verify group",
                     "botInstructions": "Please add our bot to your group and make it an admin"
-                }
+                },
+                "refresh": "Refresh",
+                "refreshing": "Refreshing...",
+                "openInTelegram": "Open Bot in Telegram",
+                "botInstructions": "Please add our bot to your group and make it an admin"
             }
+        }
+    },
+    "common": {
+        "submit": "Submit",
+        "submitting": "Submitting...",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "save": "Save",
+        "close": "Close",
+        "refresh": "Refresh",
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "form": {
+            "required": "Required",
+            "optional": "Optional",
+            "enterValue": "Enter value",
+            "invalidInput": "Invalid input"
+        },
+        "modal": {
+            "close": "Close",
+            "save": "Save",
+            "cancel": "Cancel",
+            "delete": "Delete",
+            "confirm": "Confirm"
         }
     }
 }

@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { FiUsers } from 'react-icons/fi';
+import styles from '../../styles/Settings.module.css';
 import { API_BASE_URL } from '../../constants/config';
 import { useAuth } from '../../hooks/useAuth';
-import styles from '../../styles/Settings.module.css';
 
 interface GroupPhotoProps {
     groupId: string;
@@ -49,17 +50,23 @@ export const GroupPhoto = ({ groupId, title, size = 56 }: GroupPhotoProps) => {
     }, [groupId, token]);
 
     if (!photoUrl) {
-        // Display placeholder with first letter of group title
         return (
-            <div
-                className={styles.groupImagePlaceholder}
-                style={{
-                    width: size,
-                    height: size,
-                    fontSize: size * 0.4 // Scale font size relative to container size
-                }}
-            >
-                {title.charAt(0).toUpperCase()}
+            <div className={styles.groupImage} style={{ width: size, height: size }}>
+                <div
+                    className={styles.groupImagePlaceholder}
+                    style={{
+                        width: size,
+                        height: size,
+                        fontSize: `${size * 0.4}px`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: '#f1f5f9',
+                        color: '#64748b'
+                    }}
+                >
+                    <FiUsers />
+                </div>
             </div>
         );
     }
