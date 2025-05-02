@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { FiPlus, FiAlertCircle, FiEdit2, FiMessageCircle, FiUserX, FiInfo, FiPlusCircle, FiRefreshCw, FiClock, FiDollarSign } from 'react-icons/fi';
+import { FiPlus, FiAlertCircle, FiEdit2, FiMessageCircle, FiUserX, FiInfo, FiPlusCircle, FiRefreshCw, FiClock, FiDollarSign, FiTrash2 } from 'react-icons/fi';
 import { DashboardLayout } from '../../../components/layouts/DashboardLayout';
 import { GroupPhoto } from '../../../components/telegram/GroupPhoto';
 import { UserAvatar } from '../../../components/telegram/UserAvatar';
@@ -15,7 +15,8 @@ import { API_BASE_URL } from '../../../constants/config';
 import TelegramLoginButton from '../../../components/TelegramLoginButton';
 import { AddGroupModal } from '../../../components/telegram/AddGroupModal';
 import { AddSubscriptionPlanModal } from '../../../components/telegram/AddSubscriptionPlanModal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../../../hooks/useAuth';
 
 const BOT_USERNAME = '@Invite_manager1_bot';
 const BOT_LINK = 'https://t.me/Invite_manager1_bot';
@@ -28,6 +29,10 @@ const TelegramGroupsPage = () => {
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
     const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
+    const [deletingPlanId, setDeletingPlanId] = useState<string | null>(null);
+    const [confirmDelete, setConfirmDelete] = useState<{ planId: string, groupId: string } | null>(null);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const { token } = useAuth();
 
     const handleBotLink = () => {
         window.open(BOT_LINK, '_blank');
@@ -55,22 +60,39 @@ const TelegramGroupsPage = () => {
         setSelectedGroupId(null);
     };
 
-    const renderSubscriptionPlans = (plans: any[], groupId: string) => {
-        if (!plans || plans.length === 0) {
-            return (
-                <div className={styles.noPlans}>
-                    <span>{t('dashboard.sections.telegramGroups.table.subscriptionPlansInfo.noPlans')}</span>
-                    <button
-                        onClick={() => handleAddSubscriptionPlan(groupId)}
-                        className={`${styles.button} ${styles.addPlanButton}`}
-                    >
-                        <FiPlus className={styles.buttonIcon} />
-                        {t('merchant.subscription.addPlanButton')}
-                    </button>
-                </div>
-            );
-        }
+    const handleDeletePlan = (planId: string, groupId: string) => {
+        setConfirmDelete({ planId, groupId });
+    };
 
+    const confirmDeletePlan = async () => {
+        if (!confirmDelete) return;
+        setIsDeleting(true);
+        setDeletingPlanId(confirmDelete.planId);
+        try {
+            const response = await fetch(`${API_BASE_URL}/telegram/groups/${confirmDelete.groupId}/subscription-plans/${confirmDelete.planId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Failed to delete subscription plan');
+            }
+            await fetchGroups();
+            setConfirmDelete(null);
+        } catch (err) {
+            alert('Failed to delete subscription plan');
+        } finally {
+            setIsDeleting(false);
+            setDeletingPlanId(null);
+        }
+    };
+
+    const cancelDeletePlan = () => {
+        setConfirmDelete(null);
+    };
+
+    const renderSubscriptionPlans = (plans: any[], groupId: string, deletingPlanId: string | null) => {
         return (
             <div className={styles.plansList}>
                 {plans.map((plan) => (
@@ -106,6 +128,14 @@ const TelegramGroupsPage = () => {
                                 </div>
                             </>
                         )}
+                        <button
+                            className={styles.deletePlanButton}
+                            onClick={() => handleDeletePlan(plan.id, groupId)}
+                            disabled={deletingPlanId === plan.id}
+                            title={t('common.delete')}
+                        >
+                            <FiTrash2 />
+                        </button>
                     </div>
                 ))}
                 <button
@@ -253,7 +283,27 @@ const TelegramGroupsPage = () => {
                                                     <div className={styles.userInfo}>
                                                         <div className={styles.userHeader}>
                                                             <UserAvatar user={group.addedBy} size={24} />
-                                                            <span className={styles.username}>{group.addedBy.username || group.addedBy.firstName}</span>
+                                                            {group.addedBy.username ? (
+                                                                <a
+                                                                    href={`https://t.me/${group.addedBy.username}`}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className={styles.telegramUserLink}
+                                                                >
+                                                                    <span className={styles.displayName}>
+                                                                        {group.addedBy.firstName}
+                                                                        {group.addedBy.lastName ? ` ${group.addedBy.lastName}` : ''}
+                                                                    </span>
+                                                                    <span className={styles.username}>
+                                                                        @{group.addedBy.username}
+                                                                    </span>
+                                                                </a>
+                                                            ) : (
+                                                                <span className={styles.displayName}>
+                                                                    {group.addedBy.firstName}
+                                                                    {group.addedBy.lastName ? ` ${group.addedBy.lastName}` : ''}
+                                                                </span>
+                                                            )}
                                                         </div>
                                                         <span className={styles.addedDate}>
                                                             {format(new Date(group.createdAt), 'MMM d, yyyy')}
@@ -267,7 +317,7 @@ const TelegramGroupsPage = () => {
                                                 </div>
                                             </td>
                                             <td>
-                                                {renderSubscriptionPlans(group.subscriptionPlans, group.id)}
+                                                {renderSubscriptionPlans(group.subscriptionPlans, group.id, deletingPlanId)}
                                             </td>
                                         </tr>
                                     ))}
@@ -296,6 +346,27 @@ const TelegramGroupsPage = () => {
                     onSuccess={handleSubscriptionPlanSuccess}
                     groupId={selectedGroupId}
                 />
+            )}
+
+            {confirmDelete && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.confirmModal}>
+                        <div className={styles.modalHeader}>
+                            <h3>{t('merchant.subscription.messages.confirmDelete')}</h3>
+                        </div>
+                        <div className={styles.modalContent}>
+                            <p>{t('merchant.subscription.messages.deleteConfirmText') || 'Are you sure you want to delete this subscription plan? This action cannot be undone.'}</p>
+                        </div>
+                        <div className={styles.modalActions}>
+                            <button className={styles.cancelButton} onClick={cancelDeletePlan} disabled={isDeleting}>
+                                {t('common.cancel')}
+                            </button>
+                            <button className={styles.deleteButton} onClick={confirmDeletePlan} disabled={isDeleting}>
+                                {isDeleting ? t('common.submitting') : t('common.delete')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
         </DashboardLayout>
     );
